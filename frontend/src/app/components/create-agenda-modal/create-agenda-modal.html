@@ -1,0 +1,34 @@
+
+<mat-form-field>
+  <mat-label>Título</mat-label>
+  <input matInput>
+</mat-form-field>
+
+<mat-form-field>
+  <mat-label>Descrição</mat-label>
+  <input matInput>
+</mat-form-field>
+
+<mat-form-field>
+  <mat-label>Categoria</mat-label>
+  <mat-select>
+    @for(category of categories; track category) {
+      <mat-option [value]="category.value">{{category.viewValue}}</mat-option>
+    }
+  </mat-select>
+</mat-form-field>
+
+<mat-form-field >
+  <mat-label>Data de Início da Sessão</mat-label>
+  <input matInput [matDatepicker]="picker">
+  <mat-hint>DD/MM/YYYY</mat-hint>
+  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
+
+<!-- Campo para horário -->
+<mat-form-field >
+  <mat-label>Horário de Início</mat-label>
+  <input matInput type="time">
+</mat-form-field>
+

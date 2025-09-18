@@ -1,0 +1,20 @@
+<div class="tab-header">
+  <mat-slide-toggle class="toggle" (change)="toggleLightDarkMode($event)">Dark Mode</mat-slide-toggle>
+</div>
+<mat-tab-group>
+  <mat-tab label="Listagem de Pautas">
+    <ng-template matTabContent>
+      <app-list></app-list>
+    </ng-template>
+  </mat-tab>
+  <mat-tab label="Criar Pauta">
+    <ng-template matTabContent>
+      <app-create></app-create>
+    </ng-template>
+  </mat-tab>
+  <mat-tab label="Sessão de votação">
+    <ng-template matTabContent>
+      <app-vote></app-vote>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>

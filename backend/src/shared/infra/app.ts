@@ -1,5 +1,7 @@
 import express from 'express'
 import cors from 'cors'
+import 'reflect-metadata'
+import { router } from './routes'
 
 const app = express()
 
@@ -11,5 +13,7 @@ const options:  cors.CorsOptions = {
 }
 
 app.use(cors(options))
+
+app.use(router)
 
 export { app}

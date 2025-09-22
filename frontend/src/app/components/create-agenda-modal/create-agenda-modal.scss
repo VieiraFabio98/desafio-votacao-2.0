@@ -1,0 +1,24 @@
+.agenda-modal {
+  display: grid;
+  justify-items: center;
+}
+
+.agenda-form {
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px 10px;
+
+  .agenda-form mat-form-field {
+    flex: 1 1 auto; 
+    min-width: 200px;
+  }
+
+  .half-width {
+    flex: 1 1 calc(50% - 10px); 
+  }
+
+  .full-width {
+    flex: 1 1 100%
+  }
+}

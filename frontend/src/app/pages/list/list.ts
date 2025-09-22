@@ -39,7 +39,7 @@ export class List {
 
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
     this.dialog.open(CreateAgendaModal, {
-      width: '450px',
+      width: '600px',
       height: '400px',
       enterAnimationDuration,
       exitAnimationDuration,

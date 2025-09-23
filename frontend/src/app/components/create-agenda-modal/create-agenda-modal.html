@@ -1,13 +1,13 @@
-<form class="agenda-modal">
+<form class="agenda-modal" (ngSubmit)="save()" [formGroup]="agendaForm">
   <div class="agenda-form">
     <mat-form-field class="half-width">
       <mat-label>Título</mat-label>
-      <input matInput>
+      <input matInput formControlName="title">
     </mat-form-field>
     
     <mat-form-field class="half-width">
       <mat-label>Categoria</mat-label>
-      <mat-select>
+      <mat-select formControlName="category">
         @for(category of categories; track category) {
           <mat-option [value]="category.value">{{category.viewValue}}</mat-option>
         }
@@ -16,12 +16,12 @@
     
     <mat-form-field class="full-width">
       <mat-label>Descrição</mat-label>
-      <input matInput>
+      <input matInput formControlName="description">
     </mat-form-field>
     
     <mat-form-field class="half-width">
       <mat-label>Data de Início da Sessão</mat-label>
-      <input matInput [matDatepicker]="picker">
+      <input matInput [matDatepicker]="picker" formControlName="iniVoteDate">
       <mat-hint>DD/MM/YYYY</mat-hint>
       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
@@ -29,10 +29,28 @@
     
     <mat-form-field class="half-width">
       <mat-label>Horário de Início</mat-label>
-      <input matInput type="time">
+      <input matInput type="time" formControlName="iniVoteTime">
+    </mat-form-field>
+
+    <mat-divider class="my-divider"></mat-divider>
+
+    <mat-form-field class="half-width">
+      <mat-label>Duração</mat-label>
+      <input matInput type="number" formControlName="durationValue" placeholder="Digite o valor">
     </mat-form-field>
     
+    <mat-form-field class="half-width">
+      <mat-label>Unidade</mat-label>
+      <mat-select formControlName="durationUnit">
+        <mat-option value="minutes">Minutos</mat-option>
+        <mat-option value="hours">Horas</mat-option>
+        <mat-option value="days">Dias</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    
+    
   </div>
-  <button matButton="filled">Cadastrar Pauta</button>
+  <button matButton="filled" type="submit">Cadastrar Pauta</button>
 </form>
 

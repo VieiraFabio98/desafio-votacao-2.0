@@ -38,11 +38,15 @@ export class List {
   dataSource = ELEMENT_DATA
 
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
-    this.dialog.open(CreateAgendaModal, {
+    const dialogRef = this.dialog.open(CreateAgendaModal, {
       width: '600px',
-      height: '400px',
+      height: '450px',
       enterAnimationDuration,
       exitAnimationDuration,
-    });
+    })
+  
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Dados retornados do diálogo:', result)
+    })
   }
 }

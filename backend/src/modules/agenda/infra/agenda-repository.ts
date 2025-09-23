@@ -12,7 +12,9 @@ class AgendaRepository implements IAgendaRepository {
           title: data.title,
           description: data.description,
           category: data.category,
-          iniVoteDate: data.iniVoteDate
+          iniVoteDate: data.iniVoteDate,
+          iniVoteTime: data.iniVoteTime,
+          status: "AGUARDANDO",
         }
       })
 

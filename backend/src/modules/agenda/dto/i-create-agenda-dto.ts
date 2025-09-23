@@ -5,6 +5,7 @@ interface ICreateAgendaDTO {
   description: string
   category: Category
   iniVoteDate: Date
+  iniVoteTime: number
 }
 
 export { ICreateAgendaDTO }

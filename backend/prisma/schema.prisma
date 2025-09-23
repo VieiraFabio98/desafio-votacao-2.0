@@ -23,12 +23,21 @@ enum Category {
   OUTROS
 }
 
+enum VoteStatus {
+  AGUARDANDO
+  APROVADO
+  EMPATE
+  RECUSADO
+}
+
 model Agenda {
   id           String   @id @default(uuid())
   title        String
   description  String
   category     Category
   iniVoteDate  DateTime @map("ini_vote_date") 
+  iniVoteTime  Int @map("ini_vote_time")
+  status       VoteStatus
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
 

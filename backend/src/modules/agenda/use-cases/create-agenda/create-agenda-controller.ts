@@ -5,7 +5,7 @@ import { CreateAgendaUseCase } from "./create-agenda-use-case";
 @injectable()
 class CreateAgendaController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { title, description, category, iniVoteDate } = request.body
+    const { title, description, category, iniVoteDate, iniVoteTime } = request.body
 
     const createAgendaUseCase = container.resolve(CreateAgendaUseCase)
 
@@ -13,7 +13,8 @@ class CreateAgendaController {
       title,
       description,
       category,
-      iniVoteDate
+      iniVoteDate,
+      iniVoteTime
     })
 
     return response.status(result.statusCode).json(result)

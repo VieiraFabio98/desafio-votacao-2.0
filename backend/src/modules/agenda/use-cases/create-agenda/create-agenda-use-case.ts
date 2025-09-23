@@ -18,7 +18,8 @@ class CreateAgendaUseCase {
     title,
     description,
     category,
-    iniVoteDate
+    iniVoteDate,
+    iniVoteTime
   }: ICreateAgendaDTO): Promise<HttpResponse> {
     try {
       const agenda = await this.prisma.$transaction(async (tx: any) => {
@@ -26,7 +27,8 @@ class CreateAgendaUseCase {
           title,
           description,
           category,
-          iniVoteDate
+          iniVoteDate,
+          iniVoteTime
         }, tx) 
       })
 

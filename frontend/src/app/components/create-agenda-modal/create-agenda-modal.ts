@@ -61,9 +61,8 @@ export class CreateAgendaModal implements OnInit, OnDestroy {
   }
 
   save() {
-    let payload = this.agendaForm.value
-    payload.iniVoteDate = new Date(payload.iniVoteDate)
-    
+    const payload = this.setPayload()
+
     this.subscriptions.add(
       this.restService.post('/agendas', payload).subscribe({
         next: (response) => {
@@ -75,6 +74,22 @@ export class CreateAgendaModal implements OnInit, OnDestroy {
         }
       })
     )
+  }
+
+  setPayload() {
+    return {
+      title: this.agendaForm.value.title,
+      description: this.agendaForm.value.description,
+      category: this.agendaForm.value.category,
+      iniVoteDate: this.agendaForm.value.iniVoteDate,
+      iniVoteTime: this.formatTime(this.agendaForm.value.iniVoteTime),
+    }
+  }
+
+  formatTime(value: string) {
+    const hours = parseInt(value.split(':')[0])
+    const minutes = parseInt(value.split(':')[1])
+    return (hours * 60) + minutes
   }
 
 }

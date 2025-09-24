@@ -58,12 +58,12 @@ class AgendaRepository implements IAgendaRepository {
         where.OR = [
           { title: { contains: search, mode: "insensitive" } },
           { description: { contains: search, mode: "insensitive" } },
-          { status: { equals: search as any } }
+          { status: { equals: search as string } }
         ]
       }
 
       if (filter) {
-        Object.assign(where, filter) // aqui você aplica filtros extras vindos do DTO
+        Object.assign(where, filter) 
       }
 
       // Consulta
@@ -83,7 +83,7 @@ class AgendaRepository implements IAgendaRepository {
         skip,
         take,
         orderBy: {
-          [columnName]: columnDirection
+          createdAt: "asc"
         }
       })
 

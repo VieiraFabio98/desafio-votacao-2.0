@@ -17,13 +17,12 @@ class ListAgendaController {
     const listAgendaUseCase = container.resolve(ListAgendaUseCase)
 
     const result = await listAgendaUseCase.execute({
-      search,
-      page,
-      pageSize,
-      order,
-      filter
+      search: search || "",
+      page: page || 0,
+      rowsPerPage: pageSize || 10,
+      order: order || "",
+      filter: filter || ''
     })
-
     return response.status(result.statusCode).json(result)
   }
 }

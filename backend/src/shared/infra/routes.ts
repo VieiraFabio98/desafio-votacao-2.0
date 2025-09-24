@@ -11,6 +11,6 @@ const createAgendaController = container.resolve(CreateAgendaController)
 const listAgendaController = container.resolve(ListAgendaController)
 
 router.post('/agendas', createAgendaController.handle)
-router.get('/agendas/list', listAgendaController.handle)
+router.post('/agendas/list', listAgendaController.handle)
 
 export { router }

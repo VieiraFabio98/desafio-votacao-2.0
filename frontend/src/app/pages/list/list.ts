@@ -1,8 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { CreateAgendaModal } from '../../components/create-agenda-modal/create-agenda-modal';
+import { RestService } from '../../services/rest.service';
+import { Subscription } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 export interface PeriodicElement {
   name: string;
@@ -27,15 +30,31 @@ const ELEMENT_DATA: PeriodicElement[] = [
 
 @Component({
   selector: 'app-list',
-  imports: [MatButtonModule, MatTableModule],
+  imports: [MatButtonModule, MatTableModule, CommonModule],
   templateUrl: './list.html',
   styleUrl: './list.scss',
   standalone: true
 })
-export class List {
+export class List implements OnInit, OnDestroy {
+  
   readonly dialog = inject(MatDialog)
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol', 'test']
-  dataSource = ELEMENT_DATA
+  displayedColumns: string[] = ['position' ,'title', 'category', 'description', 'iniVoteDate', 'iniVoteTime', 'status']
+  dataSource: {}[] = []
+
+  private subscriptions = new Subscription()
+
+  constructor(
+    private restService: RestService
+  ){}
+
+  ngOnInit(): void {
+    this.getData()
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe()
+  }
+  
 
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
     const dialogRef = this.dialog.open(CreateAgendaModal, {
@@ -46,7 +65,41 @@ export class List {
     })
   
     dialogRef.afterClosed().subscribe(result => {
-      console.log('Dados retornados do diálogo:', result)
+      this.getData()
     })
   }
+
+  getData() {
+    this.subscriptions.add(
+      this.restService.post('/agendas/list', {}).subscribe({
+        next: (response: any) => {
+          this.populateTable(response.data)
+        },
+        error: (error) => {
+          console.log(error)
+        }
+      })
+    )
+  }
+
+  populateTable(data: any) {
+    const updatedData = data.map((item: any, index: number) => ({
+      ...item,
+      position: index + 1,
+      iniVoteDate: new Date(item.iniVoteDate).toLocaleDateString('pt-BR'),
+    }));
+  
+    this.dataSource = updatedData;
+  }
+
+  getStatusClass(status: string): string {
+    switch(status) {
+      case 'AGUARDANDO': return 'status-pending'
+      case 'APROVADO': return 'status-approved'
+      case 'EMPATE': return 'status-tie'
+      case 'RECUSADO': return 'status-rejected'
+      default: return ''
+    }
+  }
+
 }

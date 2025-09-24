@@ -1,17 +1,18 @@
-import { Component, Renderer2 } from '@angular/core';
+import { Component, Renderer2, ViewChild } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { Vote } from '../pages/vote/vote';
-import { Create } from '../pages/create/create';
 import { List } from '../pages/list/list';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-default',
-  imports: [MatTabsModule, Vote, Create, List, MatSlideToggleModule],
+  imports: [MatTabsModule, Vote, List, MatSlideToggleModule],
   templateUrl: './default.html',
   styleUrl: './default.scss'
 })
 export class Default {
+
+  @ViewChild(List) listInstance?: List
 
   constructor(
     private renderer: Renderer2
@@ -22,6 +23,12 @@ export class Default {
       this.renderer.addClass(document.documentElement, 'dark-theme')
     } else {
       this.renderer.removeClass(document.documentElement, 'dark-theme')
+    }
+  }
+
+  onTabChange(index: number) {
+    if (index !== 0 && this.listInstance) {
+      this.listInstance.ngOnDestroy();
     }
   }
 

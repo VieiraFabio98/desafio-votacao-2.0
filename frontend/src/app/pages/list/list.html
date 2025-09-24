@@ -12,26 +12,36 @@
     </ng-container>
   
     <!-- Name Column -->
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef> Name </th>
-      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef> Título </th>
+      <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="category">
+      <th mat-header-cell *matHeaderCellDef> Categoria </th>
+      <td mat-cell *matCellDef="let element"> {{element.category}} </td>
     </ng-container>
   
     <!-- Weight Column -->
-    <ng-container matColumnDef="weight">
-      <th mat-header-cell *matHeaderCellDef> Weight </th>
-      <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef> Descrição </th>
+      <td mat-cell *matCellDef="let element"> {{element.description}} </td>
     </ng-container>
   
     <!-- Symbol Column -->
-    <ng-container matColumnDef="symbol">
-      <th mat-header-cell *matHeaderCellDef> Symbol </th>
-      <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+    <ng-container matColumnDef="iniVoteDate">
+      <th mat-header-cell *matHeaderCellDef> Data da Votação </th>
+      <td mat-cell *matCellDef="let element"> {{element.iniVoteDate}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="test">
-      <th mat-header-cell *matHeaderCellDef> Teste </th>
-      <td mat-cell *matCellDef="let element"> {{element.test}} </td>
+    <ng-container matColumnDef="iniVoteTime">
+      <th mat-header-cell *matHeaderCellDef> Horário da Votação </th>
+      <td mat-cell *matCellDef="let element"> {{element.iniVoteTime}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef> Status </th>
+      <td mat-cell *matCellDef="let element" > <span [ngClass]="getStatusClass(element.status)">{{element.status}}</span> </td>
     </ng-container>
     
   

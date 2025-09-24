@@ -8,3 +8,35 @@
 .clickable-row:hover {
   background-color: rgba(0, 0, 0, 0.04);;
 }
+
+.status-pending {
+  background-color: #fdd835; // amarelo
+  color: #000;
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.status-approved {
+  background-color: #66bb6a; // verde
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.status-tie {
+  background-color: #42a5f5; // azul
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.status-rejected {
+  background-color: #ef5350; // vermelho
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-align: center;
+}

@@ -4,6 +4,7 @@ import { Agenda } from "@prisma/client"
 import { ICreateAgendaDTO } from "@modules/agenda/dto/i-create-agenda-dto"
 import { IListRequestDTO } from "../dto/i-list-request-dto"
 
+const prisma = new PrismaClient()
 
 class AgendaRepository implements IAgendaRepository {
   async create(data: ICreateAgendaDTO, prismaClient: PrismaClient): Promise<Agenda> {
@@ -28,24 +29,66 @@ class AgendaRepository implements IAgendaRepository {
 
   async list({
     search,
-    page,
-    rowsPerPage,
+    page = 1,
+    rowsPerPage = 10,
     order,
     filter
-  }: IListRequestDTO): Promise<Agenda> {
+  }: IListRequestDTO): Promise<Agenda[]> {
     try {
-      let columnName: string
-      let columnDirection: "ASC" | "DESC" 
+      // Ordenação
+      let columnName: keyof Agenda = "title"
+      let columnDirection: "asc" | "desc" = "asc"
 
-      if (typeof order === "undefined" || order === "") {
-        columnName = "title"
-        columnDirection = "ASC"
-      } else {
-        columnName = order.substring(0, 1) === "-" ? order.substring(1) : order
-        columnDirection = order.substring(0, 1) === "-" ? "DESC" : "ASC"
+      if (order && order !== "") {
+        columnName = order.startsWith("-")
+          ? (order.substring(1) as keyof Agenda)
+          : (order as keyof Agenda)
+
+        columnDirection = order.startsWith("-") ? "desc" : "asc"
       }
 
-    } catch(error) {
+      // Paginação
+      const skip = page * rowsPerPage
+      const take = rowsPerPage
+
+      // Filtros dinâmicos (exemplo básico)
+      const where: any = {}
+
+      if (search) {
+        where.OR = [
+          { title: { contains: search, mode: "insensitive" } },
+          { description: { contains: search, mode: "insensitive" } },
+          { status: { equals: search as any } }
+        ]
+      }
+
+      if (filter) {
+        Object.assign(where, filter) // aqui você aplica filtros extras vindos do DTO
+      }
+
+      // Consulta
+      const agendas = await prisma.agenda.findMany({
+        select: {
+          id: true,
+          title: true,
+          description: true,
+          category: true,
+          iniVoteDate: true,
+          iniVoteTime: true,
+          status: true,
+          createdAt: true,
+          updatedAt: true
+        },
+        where,
+        skip,
+        take,
+        orderBy: {
+          [columnName]: columnDirection
+        }
+      })
+
+      return agendas
+    } catch (error) {
       throw error
     }
   }

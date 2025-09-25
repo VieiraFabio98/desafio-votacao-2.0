@@ -1,9 +1,40 @@
-.example-card {
-  max-width: 400px;
-  margin-top: 15px;
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 15px;
+  overflow: hidden;
+  padding: 15px;
 }
 
-.example-header-image {
-  background-image: url('https://material.angular.dev/assets/img/examples/shiba1.jpg');
-  background-size: cover;
+.example-card {
+  flex: 1 1 300px; 
+  min-width: 250px; 
+  margin-top: 15px;
+  transition: scale 300ms;
+}
+
+.example-card:hover {
+  scale: 1.03;
+}
+
+.status-pending {
+  background-color: rgb(255, 202, 55)
+}
+
+.status-approved {
+  background-color: green;
+}
+
+.status-tie {
+  background-color: blue;
+}
+
+.status-rejected {
+  background-color: red;
+}
+
+.status-avatar {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
 }

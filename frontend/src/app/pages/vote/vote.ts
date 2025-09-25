@@ -1,13 +1,15 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { RestService } from '../../services/rest.service';
 import { Subscription } from 'rxjs';
-import { TitleStrategy } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
+import { VoteModal } from '../../components/vote-modal/vote-modal';
 
 @Component({
   selector: 'app-vote',
-  imports: [MatCardModule, MatButtonModule],
+  imports: [MatCardModule, MatButtonModule, CommonModule],
   templateUrl: './vote.html',
   styleUrl: './vote.scss',
   standalone: true
@@ -17,6 +19,8 @@ export class Vote implements OnInit , OnDestroy {
   private subscriptions = new Subscription()
 
   voteCards: any[] = []
+
+  readonly dialog = inject(MatDialog)
 
   constructor(
     private restService: RestService
@@ -45,8 +49,30 @@ export class Vote implements OnInit , OnDestroy {
 
   populateCards(data: any) {
     this.voteCards = data
-   
   }
-  
+
+  getStatusClass(status: string): string {
+    switch(status) {
+      case 'AGUARDANDO': return 'status-pending'
+      case 'APROVADO': return 'status-approved'
+      case 'EMPATE': return 'status-tie'
+      case 'RECUSADO': return 'status-rejected'
+      default: return ''
+    }
+  }
+
+  openDialog(enterAnimationDuration: string, exitAnimationDuration: string, id: string): void {
+    const dialogRef = this.dialog.open(VoteModal, {
+      width: '150px',
+      height: '150px',
+      enterAnimationDuration,
+      exitAnimationDuration,
+      data: { id }
+    })
+    
+    dialogRef.afterClosed().subscribe(result => {
+      this.getData()
+    })
+  }
 
 }

@@ -41,5 +41,31 @@ model Agenda {
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
 
+  voteSession  VoteSession?
+
   @@map("agenda")
+}
+
+model VoteSession {
+  id        String   @id @default(uuid())
+  agendaId  String   @unique @map("agenda_id") 
+  startedAT DateTime @default(now()) @map("started_at")
+  endedAt   DateTime @map("ended_at")
+  agenda    Agenda   @relation(fields: [agendaId], references: [id])
+
+  votes     Vote[]
+
+  @@map("vote_sessions")
+}
+
+model Vote {
+  id            String      @id @default(uuid())
+  voteSessionId String @map("vote_sessions_id")
+  cpf           String
+  vote          Boolean     
+  createdAt    DateTime @default(now()) @map("created_at")
+  voteSession   VoteSession @relation(fields: [voteSessionId], references: [id])
+
+  @@unique([cpf, voteSessionId]) // garante que o mesmo CPF só vote uma vez por sessão
+  @@map("votes")
 }

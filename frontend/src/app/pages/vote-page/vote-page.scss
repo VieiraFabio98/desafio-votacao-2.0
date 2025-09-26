@@ -1,0 +1,11 @@
+.container {
+  display: flex;
+  justify-content: center;  /* centraliza horizontal */
+  align-items: center;      /* centraliza vertical */
+  height: 100vh;            /* ocupa altura inteira da tela */
+}
+
+.card {
+  max-width: 400px; /* opcional: limita o tamanho do card */
+  width: 100%;      /* faz ocupar o espaço disponível até o limite */
+}

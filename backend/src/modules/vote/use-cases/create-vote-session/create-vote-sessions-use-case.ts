@@ -1,5 +1,5 @@
-import { IStartVoteSessionDTO } from "@modules/vote-session/dto/i-start-vote-session-dto";
-import { IVoteSessionsRepository } from "@modules/vote-session/repositories/i-vote-sessions-repository";
+import { IStartVoteSessionDTO } from "@modules/vote/dto/i-start-vote-session-dto";
+import { IVoteRepository } from "@modules/vote/repositories/i-vote-repository";
 import { PrismaClient } from "@prisma/client";
 import { created, HttpResponse, serverError } from "@shared/helpers";
 import { inject, injectable } from "tsyringe";
@@ -8,8 +8,8 @@ import { inject, injectable } from "tsyringe";
 @injectable()
 class CreateVoteSessionsUseCase {
   constructor(
-    @inject('VoteSessionsRepository')
-    private voteSessionsRepository: IVoteSessionsRepository,
+    @inject('VoteRepository')
+    private voteRepository: IVoteRepository,
     @inject('PrismaClient')
         private prisma: PrismaClient
   ){}
@@ -23,7 +23,7 @@ class CreateVoteSessionsUseCase {
         const minutes = parseInt(durationInMinutes, 10) || 1
         const endedAt = new Date(Date.now() + minutes * 60_000)
 
-        const session = await this.voteSessionsRepository.create({
+        const session = await this.voteRepository.create({
           agendaId,
           endedAt: endedAt,
         }, tx)

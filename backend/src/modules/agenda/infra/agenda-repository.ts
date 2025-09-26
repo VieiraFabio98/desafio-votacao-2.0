@@ -93,6 +93,23 @@ class AgendaRepository implements IAgendaRepository {
     }
   }
 
+  async getBySessionId(sessionId: string): Promise<Agenda | null> {
+    try {
+
+      const session = await prisma.voteSession.findUnique({
+        where: { id: sessionId },
+        include: {
+          agenda: true
+        }
+      })
+
+      return session?.agenda ?? null
+
+    } catch(error) {
+      throw error
+    }
+  }
+
 }
 
 export { AgendaRepository }

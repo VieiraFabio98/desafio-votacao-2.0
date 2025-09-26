@@ -1,6 +1,6 @@
 import { Component, Renderer2, ViewChild } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
-import { Vote } from '../pages/vote/vote';
+import { Vote } from '../pages/vote-session/vote';
 import { List } from '../pages/list/list';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 

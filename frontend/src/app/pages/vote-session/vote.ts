@@ -26,7 +26,7 @@ export class Vote implements OnInit , OnDestroy {
   dialogRef!: MatDialogRef<VoteModal>
 
   private _snackBar = inject(MatSnackBar)
-  durationInSeconds = 1000
+  durationInSeconds = 10
   
   linkForVote: string = ''
 

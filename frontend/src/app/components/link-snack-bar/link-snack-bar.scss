@@ -1,0 +1,17 @@
+.snack-bar {
+  color: hotpink;
+  display: flex;
+  align-items: center;
+  gap: 5px
+}
+
+.copy-btn {
+  cursor: pointer;
+  transition: 250ms;
+  
+}
+
+.copy-btn:hover {
+  scale: 1.3;
+  transition: 250ms;
+}

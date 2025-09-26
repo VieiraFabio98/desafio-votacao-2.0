@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { VoteModal } from '../../components/vote-modal/vote-modal';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { LinkSnackBar } from '../../components/link-snack-bar/link-snack-bar';
 
 @Component({
   selector: 'app-vote',
@@ -25,12 +26,9 @@ export class Vote implements OnInit , OnDestroy {
   dialogRef!: MatDialogRef<VoteModal>
 
   private _snackBar = inject(MatSnackBar)
-  durationInSeconds = 5
-  openSnackBar() {
-    this._snackBar.openFromComponent(CopyUrlSnackBar, {
-      duration: this.durationInSeconds * 1000,
-    });
-  }
+  durationInSeconds = 1000
+  
+  linkForVote: string = ''
 
   constructor(
     private restService: RestService
@@ -81,19 +79,15 @@ export class Vote implements OnInit , OnDestroy {
     })
     
     this.dialogRef.afterClosed().subscribe(result => {
-      this.openSnackBar()
+      this.openSnackBar(result.data.voteLink)
     })
   }
 
-}
+  openSnackBar(link: string) {
+    this._snackBar.openFromComponent(LinkSnackBar, {
+      duration: this.durationInSeconds * 1000,
+      data: {linkForVote: link}
+    });
+  }
 
-@Component({
-  selector: 'snack-bar-component-example-snack',
-  templateUrl: 'copy-url-snack-bar.html',
-  styles: `
-    .example-pizza-party {
-      color: hotpink;
-    }
-  `,
-})
-export class CopyUrlSnackBar {}
+}

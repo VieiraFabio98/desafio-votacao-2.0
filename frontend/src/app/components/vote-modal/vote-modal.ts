@@ -40,7 +40,7 @@ export class VoteModal {
       this.restService.post('/start-vote-sessions', payload).subscribe({
         next: (result) => {
           console.log(result)
-          this.dialogRef.close(true)
+          this.dialogRef.close(result)
         },
         error: (error) => {
           console.log(error)

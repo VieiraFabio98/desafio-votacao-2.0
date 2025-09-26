@@ -15,7 +15,7 @@ class CreateVoteSessionsController {
       durationInMinutes
     })
 
-    return response.status(result.statusCode).json()
+    return response.status(result.statusCode).json(result)
   }
 }
 

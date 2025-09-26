@@ -4,8 +4,9 @@ import { MatCardModule } from '@angular/material/card';
 import { RestService } from '../../services/rest.service';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { VoteModal } from '../../components/vote-modal/vote-modal';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-vote',
@@ -21,6 +22,15 @@ export class Vote implements OnInit , OnDestroy {
   voteCards: any[] = []
 
   readonly dialog = inject(MatDialog)
+  dialogRef!: MatDialogRef<VoteModal>
+
+  private _snackBar = inject(MatSnackBar)
+  durationInSeconds = 5
+  openSnackBar() {
+    this._snackBar.openFromComponent(CopyUrlSnackBar, {
+      duration: this.durationInSeconds * 1000,
+    });
+  }
 
   constructor(
     private restService: RestService
@@ -62,7 +72,7 @@ export class Vote implements OnInit , OnDestroy {
   }
 
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string, id: string): void {
-    const dialogRef = this.dialog.open(VoteModal, {
+    this.dialogRef = this.dialog.open(VoteModal, {
       width: '150px',
       height: '150px',
       enterAnimationDuration,
@@ -70,9 +80,20 @@ export class Vote implements OnInit , OnDestroy {
       data: { id }
     })
     
-    dialogRef.afterClosed().subscribe(result => {
-      this.getData()
+    this.dialogRef.afterClosed().subscribe(result => {
+      this.openSnackBar()
     })
   }
 
 }
+
+@Component({
+  selector: 'snack-bar-component-example-snack',
+  templateUrl: 'copy-url-snack-bar.html',
+  styles: `
+    .example-pizza-party {
+      color: hotpink;
+    }
+  `,
+})
+export class CopyUrlSnackBar {}

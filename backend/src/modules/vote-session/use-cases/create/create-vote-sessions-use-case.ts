@@ -33,9 +33,6 @@ class CreateVoteSessionsUseCase {
         return { ...session, voteLink }
       })
 
-
-      console.log(startSession)
-  
       return created(startSession)
 
     } catch(error) {

@@ -6,6 +6,8 @@ import { IMakeVoteDTO } from "../dto/i-make-vote-dto"
 interface IVoteRepository {
   create(data: ICreateVoteSessionDTO, prismaClient: PrismaClient): Promise<VoteSession>
   makeVote(data: IMakeVoteDTO, prismaClient: PrismaClient):Promise<Vote>
+  verifyVote(sessionId: String, cpf: string): Promise<Boolean>
+  verifySessionStillOpen(sessionId: string, date: Date): Promise<Boolean>
 }
 
 export { IVoteRepository }

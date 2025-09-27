@@ -87,7 +87,7 @@ export class Vote implements OnInit , OnDestroy {
     this._snackBar.openFromComponent(LinkSnackBar, {
       duration: this.durationInSeconds * 1000,
       data: {linkForVote: link}
-    });
+    })
   }
 
 }

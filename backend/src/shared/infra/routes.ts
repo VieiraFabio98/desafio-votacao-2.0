@@ -6,6 +6,7 @@ import { ListAgendaController } from "@modules/agenda/use-cases/list-agenda/list
 import { CreateVoteSessionsController } from "@modules/vote/use-cases/create-vote-session/create-vote-sessions-controller";
 import { MakeVoteController } from "@modules/vote/use-cases/make-vote/make-vote-controller";
 import { GetAgendaBySessionIdController } from "@modules/agenda/use-cases/get-agenda-by-session-id/get-agenda-by-session-id-controller";
+import { generateVotes } from "@shared/helpers/functions/generate-votes";
 
 
 const router = Router()
@@ -19,7 +20,12 @@ const getagendaBySessionIdController = container.resolve(GetAgendaBySessionIdCon
 router.post('/agendas', createAgendaController.handle)
 router.post('/agendas/list', listAgendaController.handle)
 router.post('/start-vote-sessions', createVoteSessionsController.handle)
-router.post('/make-vote/:id', makeVoteController.handle)
+router.post('/make-vote/:sessionId', makeVoteController.handle)
 router.get('/get-agenda-by-session-id/:sessionId', getagendaBySessionIdController.handle)
+
+router.get('/generate-votes', (req, res) => {
+  const votes = generateVotes(5);
+  return res.json({ votes });
+})
 
 export { router }

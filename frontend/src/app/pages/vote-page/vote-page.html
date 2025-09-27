@@ -10,9 +10,15 @@
     <mat-card-content>
       <p>{{agenda.description}}</p>
     </mat-card-content>
+    <div style="display: flex; justify-content: center; margin-top: 16px;">
+      <mat-form-field appearance="outline" style="width: 250px;">
+        <mat-label>CPF</mat-label>
+        <input matInput placeholder="Digite seu CPF" (input)="cpf = $event.target.value">
+      </mat-form-field>
+    </div>
     <mat-card-actions style="justify-content: center;">
-      <button matButton>Sim</button>
-      <button matButton>Não</button>
+      <button matButton (click)="submitVote(true)">Sim</button>
+      <button matButton (click)="submitVote(false)">Não</button>
     </mat-card-actions>
   </mat-card>
 </div>

@@ -1,8 +1,9 @@
-import { PrismaClient, Vote, VoteSession } from "@prisma/client";
-import { IVoteRepository } from "../repositories/i-vote-repository";
-import { ICreateVoteSessionDTO } from "../dto/i-create-vote-session-dto";
-import { IMakeVoteDTO } from "../dto/i-make-vote-dto";
+import { PrismaClient, Vote, VoteSession } from "@prisma/client"
+import { IVoteRepository } from "../repositories/i-vote-repository"
+import { ICreateVoteSessionDTO } from "../dto/i-create-vote-session-dto"
+import { IMakeVoteDTO } from "../dto/i-make-vote-dto"
 
+const prisma = new PrismaClient()
 
 class VoteRepository implements IVoteRepository {
   async create(data: ICreateVoteSessionDTO, prismaClient: PrismaClient): Promise<VoteSession> {
@@ -36,6 +37,38 @@ class VoteRepository implements IVoteRepository {
       throw error
     }
   }
+  
+  async verifyVote(sessionId: string, cpf: string): Promise<Boolean> {
+      try {
+        const voteAlreadyExists = await prisma.vote.findFirst({
+          where: {
+            voteSessionId: sessionId,
+            cpf: cpf
+          }
+        })
+
+        return !!voteAlreadyExists
+      } catch(error) {
+        throw error
+      }
+  }
+
+  async verifySessionStillOpen(sessionId: string, date: Date): Promise<boolean> {
+  try {
+    const sessionStillOpen = await prisma.voteSession.findFirst({
+      where: {
+        id: sessionId,
+        endedAt: { gt: date }
+      }
+    })
+
+    return !!sessionStillOpen
+
+  } catch (error) {
+    throw error
+  }
+}
+
 
 }
 

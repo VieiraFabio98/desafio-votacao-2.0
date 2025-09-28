@@ -1,8 +1,8 @@
 import { IVoteRepository } from "@modules/vote/repositories/i-vote-repository";
 import { PrismaClient } from "@prisma/client";
 import { HttpResponse, ok, serverError } from "@shared/helpers";
-import { copyFile } from "fs";
 import { inject, injectable } from "tsyringe";
+import amqplib from "amqplib"
 
 
 @injectable()
@@ -35,6 +35,18 @@ class GenerateVotesUseCase {
     }
   }
 
+  private async publishToQueue(vote: {cpf: string, vote: boolean, sessionId: string}) {
+    const connection = await amqplib.connect(process.env.RABBITMQ_URL || "amqp://admin:admin@localhost:5672")
+    const channel = await connection.createChannel()
+    const queue = 'votes'
+
+    await channel.assertQueue(queue, { durable: true })
+    channel.sendToQueue(queue, Buffer.from(JSON.stringify(vote)), { persistent: true })
+
+    await channel.close()
+    await connection.close()
+  }
+
   async execute(numberOfVotes: number, sessionId: string): Promise<HttpResponse> {
     try {
 
@@ -48,18 +60,11 @@ class GenerateVotesUseCase {
       }
 
       for (const { cpf, vote } of votes) {
-        await this.prisma.$transaction(async (tx: any) => {
-          return this.voteRepository.makeVote({
-            sessionId,
-            cpf,
-            vote
-          }, tx)
-        })
+        await this.publishToQueue({ cpf, vote, sessionId })
       }
 
-      return ok(Array.from(votes))
-
-
+      return ok({ message: "Votos enviados para processamento", total: votes.size })
+      
     } catch(error) {
       return serverError(error as Error)
     }

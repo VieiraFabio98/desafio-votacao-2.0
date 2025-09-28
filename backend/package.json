@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "consumer":"ts-node -r tsconfig-paths/register src/modules/vote/consumer/vote-consumer.ts",
     "dev": "nodemon --files --watch src --ext ts --exec ts-node -r tsconfig-paths/register src/shared/infra/server.ts"
   },
   "keywords": [],
@@ -12,6 +13,7 @@
   "description": "",
   "dependencies": {
     "@prisma/client": "^6.16.2",
+    "amqplib": "^0.10.9",
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
@@ -21,6 +23,7 @@
     "tsyringe": "^4.10.0"
   },
   "devDependencies": {
+    "@types/amqplib": "^0.10.7",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/node": "^24.5.2",

@@ -28,7 +28,8 @@ class VoteRepository implements IVoteRepository {
         data: {
           voteSessionId: data.sessionId,
           cpf: data.cpf,
-          vote: data.vote
+          vote: data.vote,
+          createdAt: data.createdAt ?? new Date()
         }
       })
 
@@ -54,20 +55,20 @@ class VoteRepository implements IVoteRepository {
   }
 
   async verifySessionStillOpen(sessionId: string, date: Date): Promise<boolean> {
-  try {
-    const sessionStillOpen = await prisma.voteSession.findFirst({
-      where: {
-        id: sessionId,
-        endedAt: { gt: date }
-      }
-    })
+    try {
+      const sessionStillOpen = await prisma.voteSession.findFirst({
+        where: {
+          id: sessionId,
+          endedAt: { gt: date }
+        }
+      })
 
-    return !!sessionStillOpen
+      return !!sessionStillOpen
 
-  } catch (error) {
-    throw error
+    } catch (error) {
+      throw error
+    }
   }
-}
 
 
 }

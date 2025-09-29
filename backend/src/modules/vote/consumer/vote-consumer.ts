@@ -12,18 +12,28 @@ async function consumeVotes() {
 
   await channel.assertQueue(queue, { durable: true })
   channel.prefetch(1)
-
+  console.log('aqui')
   console.log('Aguardando votos na fila...')
 
   channel.consume(queue, async (message) => {
+    console.log(message)
     if(!message) return
 
-    const { cpf, vote, sessionId } = JSON.parse(message.content.toString())
+    const { cpf, vote, sessionId, createdAt } = JSON.parse(message.content.toString())
 
     try {
+      const sessionStillOpen = await voteRepository.verifySessionStillOpen(sessionId, createdAt)
+      if(!sessionStillOpen) {
+        console.log(`Voto de CPF ${cpf} ignorado: sessão encerrada`)
+        return channel.ack(message)
+      }
+
+      console.log(`Voto sendo registrado, cpf: ${cpf}`)
+
       await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
-        await voteRepository.makeVote({ cpf, vote, sessionId }, tx as any)
+        await voteRepository.makeVote({ cpf, vote, sessionId, createdAt }, tx as any)
       })
+
       channel.ack(message)
     } catch (err) {
       console.error("Erro ao processar voto:", err)

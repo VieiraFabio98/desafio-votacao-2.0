@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "consumer":"ts-node -r tsconfig-paths/register src/modules/vote/consumer/vote-consumer.ts",
+    "consumer": "ts-node -r tsconfig-paths/register src/modules/vote/consumer/vote-consumer.ts",
     "dev": "nodemon --files --watch src --ext ts --exec ts-node -r tsconfig-paths/register src/shared/infra/server.ts"
   },
   "keywords": [],
@@ -17,6 +17,7 @@
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
+    "node-cron": "^4.2.1",
     "pg": "^8.16.3",
     "reflect-metadata": "^0.2.2",
     "tsconfig-paths": "^4.2.0",
@@ -27,6 +28,7 @@
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/node": "^24.5.2",
+    "@types/node-cron": "^3.0.11",
     "nodemon": "^3.1.10",
     "prisma": "^6.16.2",
     "ts-node": "^10.9.2",

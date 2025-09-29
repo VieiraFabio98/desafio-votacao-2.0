@@ -3,6 +3,7 @@ interface IMakeVoteDTO {
   cpf: string
   vote: boolean
   agendaId?: string
+  createdAt?: Date
 }
 
 export { IMakeVoteDTO }

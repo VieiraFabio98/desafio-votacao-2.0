@@ -14,6 +14,7 @@ CREATE TABLE "public"."vote_sessions" (
     "agenda_id" TEXT NOT NULL,
     "started_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "ended_at" TIMESTAMP(3) NOT NULL,
+    "total_votes" INTEGER NOT NULL DEFAULT 0,
 
     CONSTRAINT "vote_sessions_pkey" PRIMARY KEY ("id")
 );

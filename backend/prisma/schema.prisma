@@ -52,6 +52,7 @@ model VoteSession {
   startedAT DateTime @default(now()) @map("started_at")
   endedAt   DateTime @map("ended_at")
   agenda    Agenda   @relation(fields: [agendaId], references: [id])
+  totalVotes Int      @default(0) @map("total_votes")
 
   votes     Vote[]
 

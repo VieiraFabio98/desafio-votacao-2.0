@@ -70,6 +70,31 @@ class VoteRepository implements IVoteRepository {
     }
   }
 
+  async countVotes(sessionId: string): Promise<any> {
+    try {
+      const groupedVotes = await prisma.vote.groupBy({
+        by: ['vote'],
+        _count: {vote: true},
+        where: {voteSessionId: sessionId}
+      })
+
+      return groupedVotes
+    } catch(error) {
+      throw error
+    }
+  }
+
+  async updateTotalVotes(sessionId: string, totalVotes: number): Promise<void> {
+    try {
+      await prisma.voteSession.update({
+        data: {totalVotes: totalVotes},
+        where: {id: sessionId}
+      })
+    } catch(error) {
+      console.log('Erro ao Atualizar total de votos da sessão')
+      throw error
+    }
+  }
 
 }
 

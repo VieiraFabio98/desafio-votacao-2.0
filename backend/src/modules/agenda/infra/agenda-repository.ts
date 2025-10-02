@@ -1,5 +1,5 @@
 import { IAgendaRepository } from "../repositories/i-agenda-repository"
-import { PrismaClient } from "@prisma/client"
+import { PrismaClient, VoteStatus } from "@prisma/client"
 import { Agenda } from "@prisma/client"
 import { ICreateAgendaDTO } from "@modules/agenda/dto/i-create-agenda-dto"
 import { IListRequestDTO } from "../dto/i-list-request-dto"
@@ -106,6 +106,18 @@ class AgendaRepository implements IAgendaRepository {
       return session?.agenda ?? null
 
     } catch(error) {
+      throw error
+    }
+  }
+
+  async updateStatus(id: string, status: VoteStatus): Promise<void> {
+    try {
+      await prisma.agenda.update({
+        data: { status: status},
+        where: { id }
+      })
+    } catch(error) {
+      console.log('Erro ao atualizar status da agenda')
       throw error
     }
   }

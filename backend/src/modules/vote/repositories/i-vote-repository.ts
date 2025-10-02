@@ -8,6 +8,8 @@ interface IVoteRepository {
   makeVote(data: IMakeVoteDTO, prismaClient: PrismaClient):Promise<Vote>
   verifyVote(sessionId: String, cpf: string): Promise<Boolean>
   verifySessionStillOpen(sessionId: string, date: Date): Promise<Boolean>
+  countVotes(sessionId: string): Promise<any>
+  updateTotalVotes(sessionId: string, totalVotes: number): Promise<void>
 }
 
 export { IVoteRepository }
